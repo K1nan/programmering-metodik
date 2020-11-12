@@ -18,7 +18,7 @@ size_t int_sorted::size() const
 
 int* int_sorted::insert(int value)
 {
-	int_buffer _buffer(value + 1);
+	int_buffer _buffer();
 
 	
 	return nullptr;
@@ -36,9 +36,31 @@ const int* int_sorted::end() const
 
 int_sorted int_sorted::merge(const int_sorted& merge_with) const
 {
-	
 	int_sorted r(nullptr, 0);
+	int_buffer _buffer(size() + merge_with.size());//all numbers for both that we are merging with
 
+	int* firstBuffer = _buffer.begin();//first number from merged 
+	const int* firstBegin = begin();//first number from 1
+	const int* firstMergeWith = merge_with.begin();//fisrt number from 2
+	//1 2 5 
+	//4 3 7
+	
+	for(; firstBegin != end() && firstMergeWith != merge_with.end(); firstBuffer++) {
+		if (*firstBegin == *end()) {
+			//return std::copy(*firstMergeWith, *merge_with.end(), *firstBuffer);
+			r(firstMergeWith, firstBuffer);
+			return r;
+		}
+		if (*firstBegin < *firstMergeWith) {
+			 *firstBuffer = *firstBegin ;
+			 ++firstBegin;
+		}
+		else {
+			 *firstBuffer = *firstMergeWith;
+			 ++firstMergeWith;
+		}
+	}
+	r.buffer = std::copy(firstBegin, end(), firstBuffer);
 	return r;
 }
 
