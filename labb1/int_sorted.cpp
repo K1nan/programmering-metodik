@@ -4,11 +4,12 @@
 
 #include "int_sorted.h"
 
-int_sorted::int_sorted(const int* source, size_t size)
+int_sorted::int_sorted(const int* source, size_t size): buffer(source,size)
 {
-	size = buffer.size();
-	//source = buffer.begin();
-	//std::sort(source, source + size);
+
+	//size = buffer.size();
+	source = buffer.begin();
+	std::sort(begin(),end());
 }
 
 size_t int_sorted::size() const
@@ -18,10 +19,29 @@ size_t int_sorted::size() const
 
 int* int_sorted::insert(int value)
 {
-	int_buffer _buffer();
-
+	int_buffer _buffer(size() +1);
+	const int* sorted = begin();
+	int* first = _buffer.begin();
+	for (; sorted != end(); sorted++) {
+		if (*sorted > value) {
+			*first = value;
+			break;
+		}
+		first++;
+	}
+	sorted = begin();
+	for (auto it = buffer.begin(); sorted != end(); sorted++) {
+		if (it == first) {
+			it++;
+		}
+		else {
+			*it = *sorted;
+		}
+		it++;
+	}
+	buffer = std::move(_buffer);
 	
-	return nullptr;
+	return first;
 }
 
 const int* int_sorted::begin() const
@@ -36,7 +56,7 @@ const int* int_sorted::end() const
 
 int_sorted int_sorted::merge(const int_sorted& merge_with) const
 {
-	int_sorted r(nullptr, 0);
+	
 	int_buffer _buffer(size() + merge_with.size());//all numbers for both that we are merging with
 
 	int* firstBuffer = _buffer.begin();//first number from merged 
@@ -46,11 +66,7 @@ int_sorted int_sorted::merge(const int_sorted& merge_with) const
 	//4 3 7
 	
 	for(; firstBegin != end() && firstMergeWith != merge_with.end(); firstBuffer++) {
-		if (*firstBegin == *end()) {
-			//return std::copy(*firstMergeWith, *merge_with.end(), *firstBuffer);
-			r(firstMergeWith, firstBuffer);
-			return r;
-		}
+		
 		if (*firstBegin < *firstMergeWith) {
 			 *firstBuffer = *firstBegin ;
 			 ++firstBegin;
@@ -60,7 +76,14 @@ int_sorted int_sorted::merge(const int_sorted& merge_with) const
 			 ++firstMergeWith;
 		}
 	}
-	r.buffer = std::copy(firstBegin, end(), firstBuffer);
+	if (firstBegin != end()) {
+		std::copy(firstBegin, end(), firstBuffer);
+	}
+	else if (firstMergeWith, merge_with.end(), firstBuffer); {
+		std::copy(firstMergeWith, merge_with.end(), firstBuffer);
+	}
+	int_sorted r(nullptr, 0);
+	r.buffer = std::move(_buffer);
 	return r;
 }
 

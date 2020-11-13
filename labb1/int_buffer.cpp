@@ -66,7 +66,7 @@ int* int_buffer::begin()
 {
 	return _pointer;
 }
-//inte säkert att det är rätt
+
 int* int_buffer::end()
 {
 	return _pointer + _size;
