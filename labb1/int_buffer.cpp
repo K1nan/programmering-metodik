@@ -11,7 +11,7 @@ int_buffer::int_buffer(size_t size)
 
 int_buffer::int_buffer(const int* source, size_t size)
 {
-	size = size;
+	_size = size;
 	_pointer = new int[size];
 	std::copy(source, source + size, _pointer);
 
@@ -28,8 +28,8 @@ int_buffer::int_buffer(int_buffer&& rhs)
 {
 	_size = rhs._size;
 	_pointer = rhs._pointer;
-	_size = 0;
-	_pointer = nullptr; //change in the destrctor and empty it 
+	rhs._size = 0;
+	rhs._pointer = nullptr; //change in the destrctor and empty it 
 }
 
 int_buffer& int_buffer::operator=(const int_buffer& rhs)
@@ -42,8 +42,20 @@ int_buffer& int_buffer::operator=(const int_buffer& rhs)
 
 int_buffer& int_buffer::operator=(int_buffer&& rhs)
 {
-	_pointer = std::move(rhs._pointer);
+	/*if (this == &rhs) {
+		return *this;
+	}
+	delete[] _pointer;
+	_pointer = rhs._pointer;
+	_size = rhs._size;
+	rhs._pointer = nullptr;
+	rhs._size = 0;*/
+	std::swap(_size, rhs._size);
+	std::swap(_pointer, rhs._pointer);
+	/*_pointer = std::move(rhs._pointer);
 	_size = std::move(rhs._size);
+	rhs._pointer = nullptr;
+	rhs._size = 0;*/
 	return *this;
 }
 //overloading [] operator
@@ -84,5 +96,5 @@ const int* int_buffer::end() const
 
 int_buffer::~int_buffer()
 {
-	std::cout << "dis" << std::endl;
+	delete[] _pointer;
 }

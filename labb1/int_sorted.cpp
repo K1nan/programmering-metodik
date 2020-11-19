@@ -6,10 +6,16 @@
 
 int_sorted::int_sorted(const int* source, size_t size): buffer(source,size)
 {
-
+	if (size == 0) {
+		return;
+	}
+	else if (size == 1) {
+		return;
+	}
 	//size = buffer.size();
-	source = buffer.begin();
-	std::sort(begin(),end());
+	//source = buffer.begin();
+	int_sorted s = sort(begin(),end());
+	buffer = std::move(s.buffer);
 }
 
 size_t int_sorted::size() const
@@ -19,7 +25,7 @@ size_t int_sorted::size() const
 
 int* int_sorted::insert(int value)
 {
-	int_buffer _buffer(size() +1);
+	/*int_buffer _buffer(size() +1);
 	const int* sorted = begin();
 	int* first = _buffer.begin();
 	for (; sorted != end(); sorted++) {
@@ -30,7 +36,7 @@ int* int_sorted::insert(int value)
 		first++;
 	}
 	sorted = begin();
-	for (auto it = buffer.begin(); sorted != end(); sorted++) {
+	for (auto it = _buffer.begin(); sorted != end(); sorted++) {
 		if (it == first) {
 			it++;
 		}
@@ -39,8 +45,19 @@ int* int_sorted::insert(int value)
 		}
 		it++;
 	}
-	buffer = std::move(_buffer);
+	buffer = std::move(_buffer);*/
 	
+	int_sorted _sort(&value,1);
+	//std::cout << _sort.size();
+	//std::cout << *_sort.begin();
+	int_sorted s = merge(_sort);
+	buffer = std::move(s.buffer);
+	int* first = buffer.begin();
+	for (; first != buffer.end(); first++) {
+		if (*first == value) {
+			return first;
+		}
+	}
 	return first;
 }
 
@@ -58,7 +75,6 @@ int_sorted int_sorted::merge(const int_sorted& merge_with) const
 {
 	
 	int_buffer _buffer(size() + merge_with.size());//all numbers for both that we are merging with
-
 	int* firstBuffer = _buffer.begin();//first number from merged 
 	const int* firstBegin = begin();//first number from 1
 	const int* firstMergeWith = merge_with.begin();//fisrt number from 2
@@ -79,10 +95,11 @@ int_sorted int_sorted::merge(const int_sorted& merge_with) const
 	if (firstBegin != end()) {
 		std::copy(firstBegin, end(), firstBuffer);
 	}
-	else if (firstMergeWith, merge_with.end(), firstBuffer); {
+	else if (firstMergeWith != merge_with.end()){
 		std::copy(firstMergeWith, merge_with.end(), firstBuffer);
 	}
 	int_sorted r(nullptr, 0);
+	
 	r.buffer = std::move(_buffer);
 	return r;
 }
