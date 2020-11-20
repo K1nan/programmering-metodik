@@ -1,6 +1,6 @@
 #include "Rectangle.h"
 
-double rectangle::getarea()//w * l
+double rectangle::getarea() const//w * l
 {
 	return width* length;
 }
@@ -13,17 +13,17 @@ rectangle::rectangle(const rectangle& rhs): width(rhs.width), length(rhs.length)
 {
 }
 
-double rectangle::getWidth()
+double rectangle::getWidth() const
 {
 	return width;
 }
 
-double rectangle::getLenght()
+double rectangle::getLenght() const
 {
 	return length;
 }
 
-std::string rectangle::getcolour()
+std::string rectangle::getcolour() const
 {
 	return shape::getcolour();
 }
@@ -36,6 +36,11 @@ void rectangle::setWidth(double width)
 void rectangle::setLength(double length)
 {
 	length = length;
+}
+
+void rectangle::setColour(std::string colour)
+{
+	colour = shape::getcolour();
 }
 
 rectangle::~rectangle()

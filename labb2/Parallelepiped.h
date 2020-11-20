@@ -3,19 +3,22 @@
 
 #include "Rectangle.h"
 
-class Parallelepiped : rectangle{
+class Parallelepiped : public rectangle{
 public:
-	virtual double getarea();//S= 2(ab+bc+ac)=0
+	virtual double getarea() const override;//S= 2(ab+bc+ac)=0
 	//conctroctor
 	Parallelepiped(std::string colour, double length, double width, double depth);
 	Parallelepiped(const Parallelepiped& rhs);
 
-	double getDepth();
-	double getWidth();
-	double getLength();
-	std::string getcolour();
+	double getDepth() const;
+	//double getWidth();
+	//double getLength();
+	//std::string getcolour();
 
 	void setDepth(double depth);
+	void setColour(std::string colour);
+	void setWidth(double width);
+	void setLenght(double lenght);
 
 	~Parallelepiped();
 private:

@@ -1,6 +1,6 @@
 #include "Circle.h"
 
-double circle::getarea()//pi * r^2
+double circle::getarea() const//pi * r^2
 {
     return pi *(radius*radius);
 }
@@ -19,12 +19,17 @@ void circle::setRadius(double radius)
     radius = radius;
 }
 
-double circle::getRadious()
+void circle::setColour(std::string colour)
+{
+    colour = shape::getcolour();
+}
+
+double circle::getRadious() const
 {
     return radius;
 }
 
-std::string circle::getcolour()
+std::string circle::getcolour() const
 {
     return shape::getcolour();
 }

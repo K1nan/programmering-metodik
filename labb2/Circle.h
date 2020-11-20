@@ -3,16 +3,19 @@
 
 #include "shape.h"
 
-class circle : shape{
+class circle : public shape{
 public:
 
-	virtual double getarea();
+	virtual double getarea() const;
 	//constructor
 	circle(std::string color, int radius);
 	circle(const circle& rhs);
+	
 	void setRadius(double radius);
-	double getRadious();
-	std::string getcolour();
+	void setColour(std::string colour);
+
+	double getRadious() const;
+	std::string getcolour() const;
 	~circle();
 private:
 	double radius;

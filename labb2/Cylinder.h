@@ -3,19 +3,21 @@
 
 #include "Circle.h"
 
-class Cylinder : circle {
+class Cylinder : public circle {
 public:
-	virtual double getarea();//V=h*pi*r^2
+	virtual double getarea() const override;//V=h*pi*r^2
 
 	//constructor
 	Cylinder(std::string colour,double radius, double height);
 	Cylinder(const Cylinder& rhs);
 
 	//getters
-	double getHeight();
-	double getRadius();
-	std::string getcolour();
+	double getHeight() const;
+	//double getRadius() const;
+	//std::string getcolour() const;
 
+	void setColour(std::string colour);
+	void setRadius(double radius);
 	void setHeight(double height);
 
 	~Cylinder();

@@ -9,12 +9,12 @@ public:
 	//shape() = delete;
 	shape(std::string color);
 	shape(const shape& rhs);
-	std::string getcolour();
+	std::string getcolour() const;
 	void setcolour(std::string colour);
 
-	virtual double getarea();//pure virtual funktion
+	virtual double getarea() const = 0;//pure virtual funktion
 
-	~shape();
+	virtual ~shape();
 private:
 	std::string colour;
 	
