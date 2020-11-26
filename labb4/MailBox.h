@@ -15,6 +15,10 @@ public:
 
     int size();
     const int size() const;
+    std::vector<Email>::iterator begin();
+    //const int begin() const;
+    std::vector<Email>::iterator end();
+    //const int end() const;
 
     void sortWho();
     void sortDate();

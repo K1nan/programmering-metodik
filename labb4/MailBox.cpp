@@ -18,6 +18,21 @@ int MailBox::size()
     return email.size();
 }
 
+std::vector<Email>::iterator MailBox::begin()
+{
+    return email.begin();
+}
+
+std::vector<Email>::iterator MailBox::end()
+{
+    return email.end();
+}
+
+/*const int MailBox::end() const
+{
+    return 0;
+}*/
+
 const int MailBox::size() const
 {
     return email.size();

@@ -9,8 +9,8 @@ struct CompDateWhoSubject;
 struct CompSubjectWhoDate;
 
 class Email {
-    
 public:
+    Email() = default;
     Email(std::string who , std::string subject, std::string date);
 
     //A friend function of a class is defined outside that class' 

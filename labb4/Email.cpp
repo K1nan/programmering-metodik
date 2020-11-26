@@ -1,5 +1,6 @@
 #include "Email.h"
 
+
 Email::Email(std::string _who, std::string _subject, std::string _date) :who(_who), subject(_subject), date(_date)
 {}
 
