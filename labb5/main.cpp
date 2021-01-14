@@ -4,7 +4,6 @@
 #include <vector>
 #include <algorithm>
 #include <numeric> 
-#include <random>
 
 struct MyClass {
 public:
@@ -22,9 +21,11 @@ private:
     const double value;
 };
 struct MyBinOP {
-
+public:
+    double operator ()(const double p, const Person& rhs) {
+        return p + rhs.getAge();
+    }
 };
-
 struct MyUnOp
 {
 public:
@@ -32,17 +33,24 @@ public:
         return p.getAge();
     }
 };
+struct MyFunc {
+public:
+    MyFunc(double m) : m(m) {}
+    double operator()(double a) {
+        return a - m;
+    }
+private:
+    double m;
+};
 
 int main() {
-    std::random_device device;
-    std::mt19937 generator(device());
-    std::uniform_int_distribution<int> dist(15, 100);
 
-    Person arr[5] = { Person("Ayham", dist(generator)),
-        Person("Osse" , dist(generator)),
-        Person("Reza" , dist(generator)),
-        Person("Reza" , dist(generator)),
-        Person("Reza" , dist(generator))
+
+    Person arr[5] = { Person("Ayham", 29.1),
+        Person("Osse" , 34.1),
+        Person("Reza" , 50.1),
+        Person("Reza" , 73.3),
+        Person("Reza" , 21.1)
     };
     std::vector<Person>vec(arr, arr + 5);
     std::cout << "1. for_Each" << std::endl;
@@ -58,7 +66,7 @@ int main() {
     std::cout << "3. find if there the same name" << std::endl;
     auto nameFind = std::adjacent_find(vec.begin(), vec.end());
     if (nameFind != vec.end()) {
-        std::for_each(nameFind, vec.end(), MyClass());
+        std::cout << *nameFind << std::endl;
     }
     else {
         std::cout << "not found" << std::endl;
@@ -83,16 +91,25 @@ int main() {
     }
 
     std::cout << "6. avarge value\n";
-    /*auto avarge = std::accumulate(vec.begin(),vec.end(),MyBinOP());
-    if(avarge != vec.end()){
+    auto sum = std::accumulate(vec.begin(), vec.end(), 0.0, MyBinOP());
+    double avarge = sum / vec.size();
+    std::cout << "avarge are " << avarge << std::endl;
+    /*if(avarge != vec.end()){
         //std::cout << "avarge are " << *avarge << std::endl;
     }*/
-
     std::cout << "7. tramsform function\n";
     std::vector <double> vec2(vec.size());
-    auto trans = std::transform(vec.begin(),vec.end(),vec2.begin(), MyUnOp());
-    if (trans != vec2.end()) {
-        for_each(trans, vec2.end(), MyClass());
-    }
+    std::transform(vec.begin(), vec.end(), vec2.begin(), MyUnOp());
+    auto a = [](double d) {
+        std::cout << d << std::endl;
+    };
+    for_each(vec2.begin(), vec2.end(), a);
+
+    std::cout << "8. \n";
+    std::transform(vec2.begin(), vec2.end(), vec2.begin(), MyFunc(avarge));
+    for_each(vec2.begin(), vec2.end(), a);
+    std::cout << "9. \n";
+    std::sort(vec2.begin(), vec2.end());
+    for_each(vec2.begin(), vec2.end(), a);
     return 0;
 }
